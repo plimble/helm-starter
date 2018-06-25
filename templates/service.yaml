@@ -1,0 +1,24 @@
+{{- if .Values.service.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+    chart: {{ template "helm-starter.chart" . }}
+    heritage: {{ .Release.Service }}
+{{- with .Values.service.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+{{- range $key, $value := .Values.service.ports }}
+    - port: {{ $value.port }}
+      targetPort: {{ default $value.port $value.targetPort }}
+      name: {{ $value.name }}
+{{- end }}
+  selector:
+    app: {{ .Release.Name }}
+{{- end }}

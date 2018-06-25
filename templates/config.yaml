@@ -1,0 +1,35 @@
+{{- $releaseName := .Release.Name -}}
+{{- if .Values.configMaps -}}
+{{- range $key, $value := .Values.configMaps }}
+{{- if $value.data }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ $releaseName }}-{{ $value.name }}
+data:
+{{- with $value.data }}
+{{ toYaml . | indent 2 }}
+{{- end }}
+---
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- if .Values.secrets -}}
+{{- range $key, $value := .Values.secrets -}}
+{{- if $value.data }}
+kind: Secret
+apiVersion: v1
+metadata:
+  name: {{ $releaseName }}-{{ $value.name }}
+type: {{ $value.type }}
+data:
+{{- with $value.data }}
+{{- range $keyData, $valueData := $value.data }}
+  {{ $keyData }}: {{ $valueData | b64enc }}
+{{- end }}
+{{- end }}
+---
+{{- end }}
+{{- end }}
+{{- end }}

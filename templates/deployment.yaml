@@ -1,0 +1,103 @@
+{{- $releaseName := .Release.Name -}}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+    chart: {{ template "helm-starter.chart" . }}
+    heritage: {{ .Release.Service }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+{{- with .Values.podAnnotations }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.env }}
+          env:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.envFrom }}
+          envFrom:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- if or .Values.configMaps .Values.secrets}}
+          volumeMounts:
+  {{- range $key, $value := .Values.configMaps }}
+    {{- if $value.mountPath }}
+            - mountPath: {{ $value.mountPath }}
+              name: {{ $value.name }}
+    {{- end }}
+  {{- end }}
+  {{- range $key, $value := .Values.secrets }}
+    {{- if $value.mountPath }}
+            - mountPath: {{ $value.mountPath }}
+              name: {{ $value.name }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- with .Values.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.resources }}
+          resources:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+
+{{- if or .Values.configMaps .Values.secrets }}
+      volumes:
+  {{- range $key, $value := .Values.configMaps }}
+
+    {{- if $value.mountPath }}
+        - name: {{ $value.name }}
+          configMap:
+            name: {{ $releaseName }}-{{ $value.name }}
+    {{- end }}
+  {{- end }}
+
+  {{- range $key, $value := .Values.secrets }}
+    {{- if $value.mountPath }}
+        - name: {{ $value.name }}
+          secret:
+            secretName: {{ $releaseName }}-{{ $value.name }}
+    {{- end }}
+  {{- end }}
+{{- end }}
