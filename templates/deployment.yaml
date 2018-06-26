@@ -44,8 +44,8 @@ spec:
 {{- if .Values.envFrom }}
           envFrom:
 {{- range $key, $value := .Values.envFrom }}
-          - configMapRef:
-              containerPort: {{ $fullName}}-{{ $value.name }}
+            - configMapRef:
+                name: {{ $fullName }}-{{ $value.name }}
 {{- end}}
 {{- end}}
 {{- if .Values.service.enabled }}
