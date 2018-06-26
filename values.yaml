@@ -29,9 +29,8 @@ env: []
   # - name: ENV2
   #   value: XXXXXX
 
-envFrom: []
-  # - configMapRef:
-      # name: env-config
+envFrom:
+  - name: env-config
 
 configMaps: []
   # - name: "config"

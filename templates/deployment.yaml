@@ -41,10 +41,13 @@ spec:
           env:
 {{ toYaml . | indent 12 }}
 {{- end }}
-{{- with .Values.envFrom }}
+{{- if .Values.envFrom }}
           envFrom:
-{{ toYaml . | indent 12 }}
-{{- end }}
+{{- range $key, $value := .Values.envFrom }}
+          - configMapRef:
+              containerPort: {{ $fullName}}-{{ $value.name }}
+{{- end}}
+{{- end}}
 {{- if .Values.service.enabled }}
           ports:
 {{- range $key, $value := .Values.service.ports }}
