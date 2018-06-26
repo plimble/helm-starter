@@ -16,7 +16,7 @@ annotations: {}
 
 podAnnotations: {}
 
-imagePullSecrets: {}
+imagePullSecrets: []
   # - name: gitlab-registry-credential
 
 args: []

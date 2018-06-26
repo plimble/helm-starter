@@ -45,6 +45,13 @@ spec:
           envFrom:
 {{ toYaml . | indent 12 }}
 {{- end }}
+{{- if .Values.service.enabled }}
+          ports:
+{{- range $key, $value := .Values.service.ports }}
+          - name: {{ $value.name }}
+            containerPort: {{ $value.targetPort }}
+{{- end}}
+{{- end}}
 {{- if or .Values.configMaps .Values.secrets}}
           volumeMounts:
   {{- range $key, $value := .Values.configMaps }}
