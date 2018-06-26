@@ -1,11 +1,11 @@
-{{- $releaseName := .Release.Name -}}
+{{- $fullName := include "helm-starter.fullname" . -}}
 {{- if .Values.configMaps -}}
 {{- range $key, $value := .Values.configMaps }}
 {{- if $value.data }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ $releaseName }}-{{ $value.name }}
+  name: {{ printf "%s-%s" $fullName $value.name | trunc 63 | trimSuffix "-"}}
 data:
 {{- with $value.data }}
 {{ toYaml . | indent 2 }}
@@ -21,7 +21,7 @@ data:
 kind: Secret
 apiVersion: v1
 metadata:
-  name: {{ $releaseName }}-{{ $value.name }}
+  name: {{ printf "%s-%s" $fullName $value.name | trunc 63 | trimSuffix "-"}}
 type: {{ $value.type }}
 data:
 {{- with $value.data }}

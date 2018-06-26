@@ -1,11 +1,13 @@
 {{- if .Values.service.enabled -}}
+{{- $fullName := include "helm-starter.fullname" . -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ $fullName }}
   labels:
-    app: {{ .Release.Name }}
+    app: {{ template "helm-starter.name" . }}
     chart: {{ template "helm-starter.chart" . }}
+    release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.service.annotations }}
   annotations:
@@ -20,5 +22,6 @@ spec:
       name: {{ $value.name }}
 {{- end }}
   selector:
-    app: {{ .Release.Name }}
+    app: {{ template "helm-starter.name" . }}
+    release: {{ .Release.Name }}
 {{- end }}

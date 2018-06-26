@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "helm-starter.fullname" . -}}
-{{- $releaseName := .Release.Name -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ $fullName }}
   labels:
-    app: {{ .Release.Name }}
+    app: {{ template "helm-starter.name" . }}
     chart: {{ template "helm-starter.chart" . }}
+    release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}
   annotations:
@@ -31,7 +31,7 @@ spec:
         paths:
           - path: {{ .path }}
             backend:
-              serviceName: {{ $releaseName }}
+              serviceName: {{ $fullName }}
               servicePort: {{ .servicePort }}
   {{- end }}
 {{- end }}

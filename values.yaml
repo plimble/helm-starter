@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+nameOverride: ''
+
 replicaCount: 1
 
 image:
@@ -15,6 +17,10 @@ podAnnotations: {}
 
 imagePullSecrets: {}
   # - name: gitlab-registry-credential
+
+args: []
+  # - /bin/sh
+  # - -c
 
 env: []
   # - name: ENV1
@@ -52,15 +58,23 @@ resources: {}
   #  cpu: 100m
   #  memory: 128Mi
 
+# Check container is alive and healthy
+# If not, the kubelet kills the Container and restarts it.
 livenessProbe: {}
   # httpGet:
   #   path: /
-  #   port: http
+  #   port: 80 or port name
+  # initialDelaySeconds: 5
+  # periodSeconds: 10
+  # failureThreshold: 3
 
+# Ensure the traffic does not reach a container which is not ready for it,
 readinessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: http
+  # tcpSocket:
+    # port: 8080
+  # initialDelaySeconds: 5
+  # periodSeconds: 10
+  # failureThreshold: 3
 
 nodeSelector: {}
 
