@@ -18,6 +18,7 @@ helm create -p default myChart
 ## Default Values
 
 ```yaml
+# Override chart name
 nameOverride: ''
 
 replicaCount: 1
@@ -43,6 +44,7 @@ env: []
   #   value: XXXXX
   # - name: ENV2
   #   value: XXXXXX
+
 envFrom: []
   # - configMapRef:
       # name: env-config
