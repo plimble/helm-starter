@@ -29,8 +29,8 @@ env: []
   # - name: ENV2
   #   value: XXXXXX
 
-envFrom:
-  - name: env-config
+envFrom: []
+  # - name: env-config
 
 configMaps: []
   # - name: "config"
