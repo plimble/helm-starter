@@ -35,6 +35,7 @@ envFrom: []
 configMaps: []
   # - name: "config"
   #   mountPath: "/firebase"
+  #   configName: config-from-outside
   #   data:
   #     firebaseCredentials.json : |-
   #       {"test": "test"}
@@ -43,6 +44,7 @@ secrets: []
   # - name: "secret"
   #   mountPath: "/tls"
   #   type: "kubernetes.io/tls"
+  #   secretName: secret-from-outside
   #   data:
   #     tls.crt: '132'
   #     tls.key: '132'

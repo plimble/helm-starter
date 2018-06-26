@@ -106,7 +106,11 @@ spec:
     {{- if $value.mountPath }}
         - name: {{ $value.name }}
           configMap:
+          {{- if $value.configName }}
+            name: {{ $value.configName }}
+          {{- else }}
             name: {{ $fullName }}-{{ $value.name }}
+          {{- end }}
     {{- end }}
   {{- end }}
 
@@ -114,7 +118,11 @@ spec:
     {{- if $value.mountPath }}
         - name: {{ $value.name }}
           secret:
+          {{- if $value.secretName }}
+            secretName: {{ $value.secretName }}
+          {{- else }}
             secretName: {{ $fullName }}-{{ $value.name }}
+          {{- end }}
     {{- end }}
   {{- end }}
 {{- end }}
