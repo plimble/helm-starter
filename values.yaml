@@ -12,7 +12,7 @@ image:
   tag: stable
   pullPolicy: Always
 
-alwaysUpdate: false
+alwaysUpdate: true
 
 annotations: {}
 
