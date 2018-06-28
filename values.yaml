@@ -12,6 +12,8 @@ image:
   tag: stable
   pullPolicy: Always
 
+alwaysUpdate: false
+
 annotations: {}
 
 podAnnotations: {}

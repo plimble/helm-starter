@@ -18,6 +18,10 @@ helm create -p default myChart
 ## Default Values
 
 ```yaml
+# Default values for helm-starter.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
 # Override chart name
 nameOverride: ''
 
@@ -28,11 +32,13 @@ image:
   tag: stable
   pullPolicy: Always
 
+alwaysUpdate: false
+
 annotations: {}
 
 podAnnotations: {}
 
-imagePullSecrets: {}
+imagePullSecrets: []
   # - name: gitlab-registry-credential
 
 args: []
@@ -46,12 +52,12 @@ env: []
   #   value: XXXXXX
 
 envFrom: []
-  # - configMapRef:
-      # name: env-config
+  # - name: env-config
 
 configMaps: []
   # - name: "config"
   #   mountPath: "/firebase"
+  #   configName: config-from-outside
   #   data:
   #     firebaseCredentials.json : |-
   #       {"test": "test"}
@@ -60,6 +66,7 @@ secrets: []
   # - name: "secret"
   #   mountPath: "/tls"
   #   type: "kubernetes.io/tls"
+  #   secretName: secret-from-outside
   #   data:
   #     tls.crt: '132'
   #     tls.key: '132'

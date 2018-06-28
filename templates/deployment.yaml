@@ -24,6 +24,9 @@ spec:
         app: {{ template "helm-starter.name" . }}
         release: {{ .Release.Name }}
       annotations:
+{{- if .Values.alwaysUpdate }}
+        checksum/update: {{ .Release.Revision  }}
+{{- end}}
         checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
 {{- with .Values.podAnnotations }}
 {{ toYaml . | indent 8 }}
