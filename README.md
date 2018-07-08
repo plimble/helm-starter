@@ -71,6 +71,10 @@ configMaps: []
   # - name: "config"
   #   mountPath: "/firebase"
   #   configName: config-from-outside
+  # create configMap for envFrom
+  # - name: "config"
+  #   data:
+  #     ENV_KEY: 123
 
 secrets: []
   # create secret and mount
@@ -84,6 +88,10 @@ secrets: []
   # - name: "secret"
   #   mountPath: "/tls"
   #   secretName: secret-from-outside
+  # create secret for envFrom
+  # - name: "config"
+  #   data:
+  #     ENV_KEY: 123
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
