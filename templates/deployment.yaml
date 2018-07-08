@@ -47,7 +47,7 @@ spec:
 {{- if .Values.envFrom }}
           envFrom:
 {{- range $key, $value := .Values.envFrom }}
-            - configMapRef:
+            - {{ $value.type }}:
                 name: {{ $fullName }}-{{ $value.name }}
 {{- end}}
 {{- end}}

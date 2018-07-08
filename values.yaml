@@ -33,6 +33,9 @@ env: []
 
 envFrom: []
   # - name: env-config
+  #   type: configMapRef
+  # - name: env-secrets
+  #   type: secretRef
 
 configMaps: []
   # - name: "config"
@@ -43,13 +46,20 @@ configMaps: []
   #       {"test": "test"}
 
 secrets: []
-  # - name: "secret"
+  # - name: "secret-tls"
   #   mountPath: "/tls"
   #   type: "kubernetes.io/tls"
   #   secretName: secret-from-outside
   #   data:
   #     tls.crt: '132'
   #     tls.key: '132'
+  # - name: "secret"
+  #   mountPath: "/tls"
+  #   type: "Opaque"
+  #   secretName: secret-from-outside
+  #   data:
+  #     SECRET_API: '132'
+  #     SECRET_KEY: '132'
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
