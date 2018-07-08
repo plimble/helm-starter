@@ -25,7 +25,7 @@ spec:
         release: {{ .Release.Name }}
       annotations:
 {{- if .Values.alwaysUpdate }}
-        checksum/update: {{ .Release.Revision  }}
+        checksum/update: {{ .Release.Time.String | sha256sum }}
 {{- end}}
         checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
 {{- with .Values.podAnnotations }}
