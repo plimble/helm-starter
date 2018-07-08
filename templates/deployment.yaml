@@ -48,7 +48,11 @@ spec:
           envFrom:
 {{- range $key, $value := .Values.envFrom }}
             - {{ $value.type }}:
+            {{- if $value.external }}
+                name: {{ $value.name }}
+            {{- else }}
                 name: {{ $fullName }}-{{ $value.name }}
+            {{- end }}
 {{- end}}
 {{- end}}
 {{- if .Values.service.enabled }}

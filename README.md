@@ -52,34 +52,38 @@ env: []
   #   value: XXXXXX
 
 envFrom: []
+  # from create configMap or secret
   # - name: env-config
   #   type: configMapRef
+  # from external
   # - name: env-secrets
   #   type: secretRef
+  #   external: true
 
 configMaps: []
+  # create configMap and mount
   # - name: "config"
   #   mountPath: "/firebase"
-  #   configName: config-from-outside
   #   data:
   #     firebaseCredentials.json : |-
   #       {"test": "test"}
+  # mount from external configMap
+  # - name: "config"
+  #   mountPath: "/firebase"
+  #   configName: config-from-outside
 
 secrets: []
+  # create secret and mount
   # - name: "secret-tls"
   #   mountPath: "/tls"
-  #   type: "kubernetes.io/tls"
-  #   secretName: secret-from-outside
+  #   type: "kubernetes.io/tls" / "Opaque"
   #   data:
   #     tls.crt: '132'
   #     tls.key: '132'
+  # mount from external secret
   # - name: "secret"
   #   mountPath: "/tls"
-  #   type: "Opaque"
   #   secretName: secret-from-outside
-  #   data:
-  #     SECRET_API: '132'
-  #     SECRET_KEY: '132'
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
